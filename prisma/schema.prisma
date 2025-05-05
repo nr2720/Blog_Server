@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model posts {
+  id           Int       @id @default(autoincrement())
+  post_title   String?   @db.VarChar(50)
+  post_content String?   
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+  user_id      Int?
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  subject      String?   @db.VarChar(50)
+  likes        likes[]
+  dislikes     dislikes[]
+  comments     comments[]
+}
+
+model users {
+  id           Int       @id @default(autoincrement())
+  profile_picture String @default("https://res.cloudinary.com/dnfb6gke7/image/upload/v1746150576/blank-profile-picture-973460_960_720-1_kvveqn.png")
+  status       String    @db.VarChar(50) @default("user")
+  username     String    @unique @db.VarChar(255)
+  user_hash    String?   @db.VarChar(255)
+  user_salt    String?   @db.VarChar(255)
+  first_name   String?   @db.VarChar(50)
+  last_name    String?   @db.VarChar(50)
+  email        String    @unique @db.VarChar(100)
+  phone_number String    @db.VarChar(50)
+  created_at   DateTime? @default(now()) @db.Timestamp(6)
+  posts        posts[]
+  comments     comments[]
+  likes        likes[]
+  dislikes     dislikes[]
+}
+
+model comments {
+  id           Int       @id @default(autoincrement())
+  comments     String? 
+  user_id      Int?
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  post_id      Int?
+  posts        posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post")
+}
+
+model likes {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  post_id      Int?      
+  posts        posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post")
+}
+
+model dislikes {
+  id           Int       @id @default(autoincrement())
+  user_id      Int?
+  users        users?    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_user")
+  post_id      Int?      
+  posts        posts?    @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_post")
+}
+
+
