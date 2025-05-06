@@ -43,7 +43,7 @@ app.use(express.urlencoded({extended: true}));
 
 //cors
 app.use(cors({
-  origin: 'https://southern-garnet-nr2720-be789e35.koyeb.app/', // React app runs here
+  origin: 'https://chumbook.netlify.app/', // React app runs here
   // origin: 'http://localhost:5173', // React app runs here
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true 
