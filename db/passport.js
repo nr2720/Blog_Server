@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 const pathToKey = path.join(__dirname, '..', '/crypto/id_rsa_pub.pem');
-// const PUB_KEY = fs.readFileSync(pathToKey, 'utf-8');
-const PUB_KEY = process.env.PUBLIC_KEY;
+const PUB_KEY = fs.readFileSync(pathToKey, 'utf-8');
+// const PUB_KEY = process.env.PUBLIC_KEY;
 
 //prisma
 const prisma = require('./prisma');
