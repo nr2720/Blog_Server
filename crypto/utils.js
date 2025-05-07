@@ -8,10 +8,6 @@ const path = require('path');
 
 const PRIV_KEY = process.env.PRIVATE_KEY;
 
-
-
-
-
 function validPassword(password, hash, salt) {
     var hashVerify = crypto
       .pbkdf2Sync(password, salt, 10000, 64, "sha512")
@@ -39,12 +35,10 @@ const issueJWT = (user) => {
         sub: id,
         iat: Date.now(),
     }
-
     const signedToken = jsonwebtoken.sign(payload, PRIV_KEY, {
         expiresIn: expiresIn,
         algorithm: "RS256",
     })
-
     return {
         token: "Bearer " + signedToken,
         expires: expiresIn,
